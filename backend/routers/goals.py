@@ -25,7 +25,7 @@ def _enrich(goal: SavingsGoal) -> GoalOut:
 async def create_goal(goal_in: GoalCreate, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == goal_in.user_id).first()
     if not user:
-        raise HTTPException(status_code=404, detail="User not found.")
+        raise HTTPException(status_code=404, detail="User not found")
 
     # Generate AI tip concurrently
     ai_tip = await generate_financial_tip(
@@ -65,7 +65,7 @@ def list_goals(user_id: int = None, db: Session = Depends(get_db)):
 def get_goal(goal_id: int, db: Session = Depends(get_db)):
     goal = db.query(SavingsGoal).filter(SavingsGoal.id == goal_id).first()
     if not goal:
-        raise HTTPException(status_code=404, detail="Goal not found.")
+        raise HTTPException(status_code=404, detail="Goal not found")
     return _enrich(goal)
 
 
@@ -73,10 +73,10 @@ def get_goal(goal_id: int, db: Session = Depends(get_db)):
 def update_goal(goal_id: int, update: GoalUpdate, db: Session = Depends(get_db)):
     goal = db.query(SavingsGoal).filter(SavingsGoal.id == goal_id).first()
     if not goal:
-        raise HTTPException(status_code=404, detail="Goal not found.")
+        raise HTTPException(status_code=404, detail="Goal not found")
     if update.current_savings is not None:
         if update.current_savings < 0:
-            raise HTTPException(status_code=400, detail="current_savings cannot be negative.")
+            raise HTTPException(status_code=400, detail="Savings can't be negative")
         goal.current_savings = round(update.current_savings, 2)
     if update.monthly_contribution is not None:
         if update.monthly_contribution <= 0:

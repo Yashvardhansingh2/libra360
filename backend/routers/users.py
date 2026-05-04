@@ -13,7 +13,7 @@ def create_user(user_in: UserCreate, db: Session = Depends(get_db)):
     if existing:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="A user with this email already exists.",
+            detail="Email already exists",
         )
     user = User(name=user_in.name, email=user_in.email)
     db.add(user)
@@ -31,7 +31,7 @@ def list_users(skip: int = 0, limit: int = 50, db: Session = Depends(get_db)):
 def get_user(user_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
-        raise HTTPException(status_code=404, detail="User not found.")
+        raise HTTPException(status_code=404, detail="User not found")
     return user
 
 
@@ -39,6 +39,6 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
-        raise HTTPException(status_code=404, detail="User not found.")
+        raise HTTPException(status_code=404, detail="User not found")
     db.delete(user)
     db.commit()

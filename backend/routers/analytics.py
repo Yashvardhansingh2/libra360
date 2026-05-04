@@ -7,7 +7,7 @@ from typing import List
 
 router = APIRouter()
 
-# ── SQL Task: Top 3 users closest to reaching their target goals ──────────────
+# SQL query for top 3 users by goal progress
 TOP_USERS_SQL = text("""
     SELECT
         u.id            AS user_id,
@@ -36,14 +36,14 @@ TOP_USERS_SQL = text("""
 
 @router.get("/top-users", response_model=List[TopUserGoal])
 def top_users_closest_to_goal(db: Session = Depends(get_db)):
-    """Return the top 3 users who are closest to reaching their savings goals."""
+    """Get the top 3 users closest to their goal targets."""
     rows = db.execute(TOP_USERS_SQL).mappings().all()
     return [TopUserGoal(**dict(row)) for row in rows]
 
 
 @router.get("/summary")
 def dashboard_summary(db: Session = Depends(get_db)):
-    """Aggregate stats for the dashboard."""
+    """Return aggregate stats for the dashboard."""
     result = db.execute(text("""
         SELECT
             COUNT(DISTINCT u.id)                              AS total_users,

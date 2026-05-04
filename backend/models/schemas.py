@@ -38,14 +38,14 @@ class GoalCreate(BaseModel):
     @classmethod
     def must_be_positive(cls, v):
         if v <= 0:
-            raise ValueError("Must be a positive value")
+            raise ValueError("Must be positive")
         return round(v, 2)
 
     @field_validator("duration_months")
     @classmethod
     def valid_duration(cls, v):
         if v < 1 or v > 360:
-            raise ValueError("Duration must be between 1 and 360 months")
+            raise ValueError("Duration must be 1–360 months")
         return v
 
     @field_validator("current_savings")

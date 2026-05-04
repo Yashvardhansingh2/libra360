@@ -28,7 +28,7 @@ async def generate_financial_tip(
     category: str,
     current_savings: float = 0.0,
 ) -> str:
-    """Call Google Gemini API to get a personalized financial tip."""
+    """Get a financial tip from Gemini based on the goal."""
     prompt = (
         f"You are a certified financial advisor specializing in personal savings. "
         f"A user has set the following financial goal:\n"
