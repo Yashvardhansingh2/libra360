@@ -11,16 +11,16 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Starting Libra360 API...")
+    logger.info("Starting Libra360 API")
     Base.metadata.create_all(bind=engine)
-    logger.info("Database tables created.")
+    logger.info("Database tables are ready")
     yield
-    logger.info("Shutting down Libra360 API...")
+    logger.info("Stopping Libra360 API")
 
 
 app = FastAPI(
-    title="Libra360 Smart Savings API",
-    description="AI-powered savings plan generator for Dynamicore Strategies",
+    title="Libra360 API",
+    description="Savings goal API for Libra360",
     version="1.0.0",
     lifespan=lifespan,
 )

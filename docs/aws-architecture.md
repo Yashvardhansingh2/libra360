@@ -1,12 +1,12 @@
-# AWS Architecture — Libra360 Smart Savings Architect
+# AWS Architecture — Libra360
 
 ## Overview
 
-Two viable architectures are presented. **Option A (Lambda)** is recommended for a startup fintech MVP with variable traffic. **Option B (EC2/ECS)** suits higher throughput or when persistent connections are needed.
+This document outlines two deployment paths. **Option A (Lambda)** is the simpler starting point for an MVP with variable traffic. **Option B (EC2/ECS)** is better if the app needs steadier throughput or long-lived connections.
 
 ---
 
-## Option A: Serverless (Recommended for MVP)
+## Option A: Serverless (recommended for MVP)
 
 ```
 User Browser
@@ -53,7 +53,7 @@ User Browser
     (external HTTPS call)
 ```
 
-### Services Used
+### Services used
 
 | Service | Purpose | Tier |
 |---|---|---|
@@ -67,7 +67,7 @@ User Browser
 | VPC | Network isolation | Free |
 | IAM | Least-privilege roles | Free |
 
-### IAM — Least Privilege
+### IAM — least privilege
 
 ```json
 // Lambda execution role — only what it needs
@@ -93,7 +93,7 @@ User Browser
 }
 ```
 
-### Lambda Adapter (Mangum)
+### Lambda adapter (Mangum)
 
 ```python
 # Add to backend/main.py for Lambda deployment
@@ -101,7 +101,7 @@ from mangum import Mangum
 handler = Mangum(app, lifespan="off")
 ```
 
-### Concurrency Handling
+### Concurrency handling
 
 - Lambda scales horizontally to hundreds of concurrent requests automatically
 - RDS Proxy sits between Lambda and RDS to pool connections (avoids connection exhaustion from cold starts)
@@ -109,7 +109,7 @@ handler = Mangum(app, lifespan="off")
 
 ---
 
-## Option B: EC2 / ECS (Higher Throughput)
+## Option B: EC2 / ECS (higher throughput)
 
 ```
 User Browser
@@ -133,7 +133,7 @@ Application Load Balancer (HTTPS)
 
 ---
 
-## CI/CD Pipeline
+## CI/CD pipeline
 
 ```
 GitHub Push (main)
@@ -150,7 +150,7 @@ GitHub Actions
 
 ---
 
-## Security Checklist
+## Security checklist
 
 - [x] VPC with private subnets for RDS and Lambda
 - [x] Security Groups: Lambda → RDS on port 5432 only
@@ -164,7 +164,7 @@ GitHub Actions
 
 ---
 
-## Cost Estimate (Mumbai — ap-south-1, ~10k req/day)
+## Cost estimate (Mumbai — ap-south-1, ~10k req/day)
 
 | Service | Monthly Cost (USD) |
 |---|---|

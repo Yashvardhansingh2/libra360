@@ -3,7 +3,6 @@ from typing import Optional
 from datetime import datetime
 
 
-# ── User Schemas ──────────────────────────────────────────────
 class UserCreate(BaseModel):
     name: str
     email: EmailStr
@@ -26,7 +25,6 @@ class UserOut(BaseModel):
         from_attributes = True
 
 
-# ── Goal Schemas ──────────────────────────────────────────────
 class GoalCreate(BaseModel):
     user_id: int
     title: str
@@ -82,7 +80,6 @@ class GoalOut(BaseModel):
         from_attributes = True
 
 
-# ── Analytics Schemas ─────────────────────────────────────────
 class TopUserGoal(BaseModel):
     user_id: int
     user_name: str

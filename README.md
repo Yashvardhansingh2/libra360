@@ -1,28 +1,25 @@
-# ⚖️ Libra360 — Smart Savings Architect
+# Libra360
 
-> AI-powered savings plan generator built for Dynamicore Strategies' Libra360 fintech platform.
-
-![Stack](https://img.shields.io/badge/stack-React%20·%20FastAPI%20·%20PostgreSQL%20·%20Gemini-4ade80?style=flat-square)
-![Docker](https://img.shields.io/badge/docker-compose-2496ED?style=flat-square)
+Libra360 is a small savings-planning app built for the Dynamicore Strategies technical assessment. It lets a user create a financial goal, tracks progress in the browser, stores data in PostgreSQL, and generates a short financial tip with Gemini when a key is available.
 
 ---
 
-## ✨ Features
+## What it includes
 
-| Requirement | Implementation |
+| Area | What is implemented |
 |---|---|
-| React dashboard | Vite + React 18, Recharts, dark fintech UI |
+| React dashboard | Vite + React 18, Recharts, responsive layout |
 | Financial goal form | Real-time savings projection chart |
-| AI Financial Tip | Google Gemini 2.0 Flash via async httpx |
-| RESTful API | FastAPI + async handlers, 4 Uvicorn workers |
-| PostgreSQL schema | Normalized tables, CHECK constraints, FKs |
+| AI tip | Google Gemini 2.0 Flash through async httpx |
+| REST API | FastAPI with async handlers |
+| PostgreSQL schema | Normalized tables, check constraints, foreign keys |
 | SQL Task | Top-3 users by progress (raw SQL via SQLAlchemy) |
-| Dockerfile | Multi-stage build, non-root user (least privilege) |
-| AWS Architecture | Documented below and in `docs/aws-architecture.md` |
+| Dockerfile | Multi-stage build, non-root user |
+| AWS architecture | Documented below and in `docs/aws-architecture.md` |
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 libra360/
@@ -59,13 +56,13 @@ libra360/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Docker & Docker Compose
 - (Optional) Google Gemini API key from [aistudio.google.com](https://aistudio.google.com/)
 
-### 1. Clone & configure
+### 1. Clone and configure
 
 ```bash
 git clone https://github.com/yourusername/libra360.git
@@ -86,7 +83,7 @@ docker compose up --build
 | API      | http://localhost:8000 |
 | API Docs | http://localhost:8000/docs |
 
-### 3. Local dev (no Docker)
+### 3. Local development without Docker
 
 **Backend:**
 ```bash
@@ -105,7 +102,7 @@ npm run dev   # → http://localhost:3000
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 ### Users
 | Method | Endpoint | Description |
@@ -132,7 +129,7 @@ npm run dev   # → http://localhost:3000
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 ```sql
 users (
@@ -151,7 +148,7 @@ savings_goals (
 )
 ```
 
-**SQL Task — Top 3 users closest to goal:**
+**SQL task — top 3 users closest to goal:**
 ```sql
 SELECT u.name, sg.title, sg.target_amount, sg.current_savings,
        ROUND(sg.current_savings / NULLIF(sg.target_amount,0) * 100, 2) AS progress_percent,
@@ -163,7 +160,7 @@ ORDER BY progress_percent DESC LIMIT 3;
 
 ---
 
-## 🔐 Security
+## Security
 
 - **Least privilege**: Backend Docker container runs as non-root `appuser`
 - **Input validation**: Pydantic v2 with strict field validators (positive amounts, bounded durations)
@@ -174,7 +171,7 @@ ORDER BY progress_percent DESC LIMIT 3;
 
 ---
 
-## ☁️ AWS Architecture
+## AWS Architecture
 
 See [`docs/aws-architecture.md`](docs/aws-architecture.md) for full details.
 
@@ -188,7 +185,7 @@ See [`docs/aws-architecture.md`](docs/aws-architecture.md) for full details.
 
 ---
 
-## 🧪 Testing the AI Tip
+## Testing the AI Tip
 
 Create a goal via the UI or directly:
 
@@ -206,8 +203,8 @@ curl -X POST http://localhost:8000/api/goals/ \
   }'
 ```
 
-Without a Gemini key, a curated fallback tip is returned — the app never fails.
+If no Gemini key is configured, the app returns a fallback tip instead.
 
 ---
 
-Built with ❤️ by Yashvardhan Singh for the Dynamicore Strategies technical assessment.
+Built by Yashvardhan Singh for the Dynamicore Strategies technical assessment.
