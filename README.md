@@ -207,4 +207,4 @@ If no Gemini key is configured, the app returns a fallback tip instead.
 
 ---
 
-Built by Yashvardhan Singh for the Dynamicore Strategies technical assessment.
+Built by Yashvardhan Singh 
